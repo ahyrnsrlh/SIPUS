@@ -99,12 +99,10 @@ class RackController extends Controller
     /**
      * Show the form for creating a new sub-rack.
      */
-    public function createSubRack(): Response
+    public function createSubRack(Rack $rack): Response
     {
-        $racks = Rack::select('id', 'name')->get();
-        
         return Inertia::render('Admin/SubRacks/Create', [
-            'racks' => $racks,
+            'rack' => $rack,
         ]);
     }
 

@@ -50,6 +50,14 @@ class DashboardController extends Controller
                         'uploader' => $file->uploader,
                     ];
                 });
+
+            // Get racks with file counts for admin
+            $racks = Rack::withCount(['files', 'subRacks'])
+                ->with(['subRacks' => function ($query) {
+                    $query->withCount('files');
+                }])
+                ->latest()
+                ->get(); // Get all racks instead of just 5
         } else {
             // User statistics
             $userFiles = FileModel::where('uploaded_by', $user->id);
@@ -78,11 +86,15 @@ class DashboardController extends Controller
                         'uploader' => $file->uploader,
                     ];
                 });
+            
+            // Set racks to null for regular users
+            $racks = null;
         }
 
         return Inertia::render('Dashboard', [
             'stats' => $stats,
             'recentFiles' => $recentFiles,
+            'racks' => $user->role === 'admin' ? $racks : null,
         ]);
     }
 

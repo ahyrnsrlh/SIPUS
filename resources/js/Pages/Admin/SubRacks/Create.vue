@@ -2,22 +2,17 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
-defineProps({
-    racks: Array,
+const props = defineProps({
+    rack: Object,
 });
 
 const form = useForm({
-    rack_id: '',
     name: '',
     description: '',
 });
 
 const submit = () => {
-    if (!form.rack_id) {
-        alert('Please select a rack first');
-        return;
-    }
-    form.post(route('admin.racks.sub-racks.store', form.rack_id), {
+    form.post(route('admin.racks.sub-racks.store', props.rack.id), {
         onSuccess: () => {
             // Success will be handled by the redirect from controller
         },
@@ -37,59 +32,47 @@ const submit = () => {
         </template>
 
         <div class="max-w-2xl mx-auto">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-6">📂 Form Tambah Sub-Rak Baru</h3>
+            <div class="bg-white rounded-xl shadow-sm border border-pln-gray p-6">
+                <h3 class="text-lg font-semibold text-charcoal mb-6">📂 Form Tambah Sub-Rak Baru</h3>
                 
                 <form @submit.prevent="submit" class="space-y-6">
                     <!-- Pilih Rak Induk -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Pilih Rak Induk *
-                        </label>
-                        <select
-                            v-model="form.rack_id"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            required
-                        >
-                            <option value="">-- Pilih Rak --</option>
-                            <option v-for="rack in racks" :key="rack.id" :value="rack.id">
-                                {{ rack.name }}
-                            </option>
-                        </select>
-                        <div v-if="form.errors.rack_id" class="mt-1 text-sm text-red-600">
-                            {{ form.errors.rack_id }}
-                        </div>
+                    <!-- Info Rak Induk -->
+                    <div class="bg-pln-gray p-4 rounded-lg">
+                        <h3 class="text-sm font-medium text-charcoal mb-1">Rak Induk</h3>
+                        <p class="text-lg font-semibold text-pln-blue">{{ rack.name }}</p>
+                        <p class="text-sm text-gray-600" v-if="rack.description">{{ rack.description }}</p>
                     </div>
 
                     <!-- Nama Sub-Rak -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-charcoal mb-2">
                             Nama Sub-Rak *
                         </label>
                         <input
                             v-model="form.name"
                             type="text"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pln-blue focus:border-transparent"
                             placeholder="Masukkan nama sub-rak"
                             required
                         />
-                        <div v-if="form.errors.name" class="mt-1 text-sm text-red-600">
+                        <div v-if="form.errors.name" class="mt-1 text-sm text-pln-red">
                             {{ form.errors.name }}
                         </div>
                     </div>
 
                     <!-- Deskripsi -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-charcoal mb-2">
                             Deskripsi (opsional)
                         </label>
                         <textarea
                             v-model="form.description"
                             rows="3"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pln-blue focus:border-transparent"
                             placeholder="Masukkan deskripsi sub-rak (opsional)"
                         ></textarea>
-                        <div v-if="form.errors.description" class="mt-1 text-sm text-red-600">
+                        <div v-if="form.errors.description" class="mt-1 text-sm text-pln-red">
                             {{ form.errors.description }}
                         </div>
                     </div>
@@ -107,7 +90,7 @@ const submit = () => {
                         <button
                             type="submit"
                             :disabled="form.processing"
-                            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                            class="px-6 py-2 bg-pln-blue text-white rounded-lg hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-pln-blue disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                         >
                             <span v-if="form.processing" class="flex items-center">
                                 <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
@@ -116,7 +99,7 @@ const submit = () => {
                                 </svg>
                                 Processing...
                             </span>
-                            <span v-else>Tambah Sub-Rak</span>
+                            <span v-else">Tambah Sub-Rak</span>
                         </button>
                     </div>
                 </form>

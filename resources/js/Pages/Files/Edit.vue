@@ -39,8 +39,8 @@ const submit = () => {
                     <!-- File Info Display -->
                     <div class="bg-gray-50 rounded-lg p-4 mb-6">
                         <div class="flex items-center">
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-12 h-12 bg-light-blue rounded-lg flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-pln-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                             </div>
@@ -142,13 +142,13 @@ const submit = () => {
                             <span
                                 v-for="tagId in form.tags"
                                 :key="tagId"
-                                class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full"
+                                class="inline-flex items-center px-2 py-1 text-xs font-medium bg-light-blue text-pln-blue rounded-full"
                             >
                                 {{ tags.find(tag => tag.id === tagId)?.name }}
                                 <button
                                     type="button"
                                     @click="form.tags = form.tags.filter(id => id !== tagId)"
-                                    class="ml-1 text-blue-600 hover:text-blue-800"
+                                    class="ml-1 text-pln-blue hover:text-dark-blue"
                                 >
                                     ×
                                 </button>
@@ -169,7 +169,7 @@ const submit = () => {
                         <button
                             type="submit"
                             :disabled="form.processing"
-                            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                            class="px-6 py-2 bg-pln-blue text-white rounded-lg hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-pln-blue disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                         >
                             <span v-if="form.processing" class="flex items-center">
                                 <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">

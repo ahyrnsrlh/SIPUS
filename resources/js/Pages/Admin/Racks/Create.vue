@@ -33,7 +33,7 @@ const submit = () => {
                         <input
                             v-model="form.name"
                             type="text"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pln-blue focus:border-transparent"
                             placeholder="Masukkan nama rak"
                             required
                         />
@@ -50,7 +50,7 @@ const submit = () => {
                         <textarea
                             v-model="form.description"
                             rows="3"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pln-blue focus:border-transparent"
                             placeholder="Masukkan deskripsi rak (opsional)"
                         ></textarea>
                         <div v-if="form.errors.description" class="mt-1 text-sm text-red-600">
@@ -71,7 +71,7 @@ const submit = () => {
                         <button
                             type="submit"
                             :disabled="form.processing"
-                            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                            class="px-6 py-2 bg-pln-blue text-white rounded-lg hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-pln-blue disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                         >
                             <span v-if="form.processing" class="flex items-center">
                                 <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">

@@ -43,7 +43,7 @@ Route::middleware(['auth', 'approved'])->group(function () {
         
         // Rack management
         Route::resource('racks', RackController::class);
-        Route::get('/sub-racks/create', [RackController::class, 'createSubRack'])->name('sub-racks.create');
+        Route::get('/racks/{rack}/sub-racks/create', [RackController::class, 'createSubRack'])->name('racks.sub-racks.create');
         Route::post('/racks/{rack}/sub-racks', [RackController::class, 'storeSubRack'])->name('racks.sub-racks.store');
         Route::delete('/sub-racks/{subRack}', [RackController::class, 'destroySubRack'])->name('sub-racks.destroy');
     });
