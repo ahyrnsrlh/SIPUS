@@ -392,18 +392,27 @@ const LayoutComponent = computed(() => isAdmin.value ? AdminLayout : UserLayout)
                             Showing {{ files.from }} to {{ files.to }} of {{ files.total }} results
                         </div>
                         <div class="flex space-x-1">
-                            <Link
-                                v-for="link in files.links"
-                                :key="link.label"
-                                :href="link.url"
-                                :class="[
-                                    'px-3 py-2 text-sm rounded-md',
-                                    link.active 
-                                        ? 'bg-pln-blue text-white' 
-                                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-                                ]"
-                                v-html="link.label"
-                            />
+                            <template v-for="link in files.links" :key="link.label">
+                                <Link
+                                    v-if="link.url"
+                                    :href="link.url"
+                                    :class="[
+                                        'px-3 py-2 text-sm rounded-md',
+                                        link.active 
+                                            ? 'bg-pln-blue text-white' 
+                                            : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                                    ]"
+                                    v-html="link.label"
+                                />
+                                <span
+                                    v-else
+                                    :class="[
+                                        'px-3 py-2 text-sm rounded-md',
+                                        'text-gray-400 cursor-not-allowed'
+                                    ]"
+                                    v-html="link.label"
+                                />
+                            </template>
                         </div>
                     </div>
                 </div>

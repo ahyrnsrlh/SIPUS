@@ -137,7 +137,7 @@ const submit = () => {
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-yellow-800">
-                            ⚠️ Akun perlu persetujuan dari admin sebelum dapat login.
+                            Akun perlu persetujuan dari admin sebelum dapat login.
                         </p>
                     </div>
                 </div>
