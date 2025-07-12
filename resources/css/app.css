@@ -1,4 +1,4 @@
-@import 'pln-colors.css';
+@import "pln-colors.css";
 
 @tailwind base;
 @tailwind components;

@@ -406,16 +406,35 @@ const statCards = computed(() =>
                 class="px-6 py-4 border-b border-pln-gray bg-pln-gray flex items-center justify-between"
             >
                 <div>
-                    <h3 class="text-lg font-semibold text-charcoal">🗂️ Racks Overview</h3>
-                    <p class="text-sm text-gray-600">Manage file organization categories</p>
+                    <h3 class="text-lg font-semibold text-charcoal">
+                        🗂️ Racks Overview
+                    </h3>
+                    <p class="text-sm text-gray-600">
+                        Manage file organization categories
+                    </p>
                 </div>
                 <Link
                     :href="route('admin.racks.index')"
                     class="inline-flex items-center px-4 py-2 bg-pln-blue text-white text-sm font-medium rounded-lg hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-pln-blue focus:ring-offset-2 transition-colors duration-200"
                 >
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <svg
+                        class="w-4 h-4 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                        />
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
                     </svg>
                     Manage All Racks
                 </Link>
@@ -430,35 +449,69 @@ const statCards = computed(() =>
                     <div class="flex items-center justify-between">
                         <!-- Rack Info -->
                         <div class="flex items-center flex-1">
-                            <div class="w-12 h-12 bg-light-blue rounded-lg flex items-center justify-center mr-4">
-                                <svg class="w-6 h-6 text-pln-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            <div
+                                class="w-12 h-12 bg-light-blue rounded-lg flex items-center justify-center mr-4"
+                            >
+                                <svg
+                                    class="w-6 h-6 text-pln-blue"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                                    />
                                 </svg>
                             </div>
                             <div class="flex-1">
                                 <div class="flex items-center">
-                                    <h4 class="text-sm font-medium text-charcoal">{{ rack.name }}</h4>
-                                    <span class="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pln-blue text-white">
+                                    <h4
+                                        class="text-sm font-medium text-charcoal"
+                                    >
+                                        {{ rack.name }}
+                                    </h4>
+                                    <span
+                                        class="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pln-blue text-white"
+                                    >
                                         {{ rack.files_count }} files
                                     </span>
                                 </div>
-                                <p class="text-sm text-gray-500 mt-1">{{ rack.description || 'No description' }}</p>
-                                
+                                <p class="text-sm text-gray-500 mt-1">
+                                    {{ rack.description || "No description" }}
+                                </p>
+
                                 <!-- Sub-racks -->
-                                <div v-if="rack.sub_racks && rack.sub_racks.length > 0" class="mt-2">
+                                <div
+                                    v-if="
+                                        rack.sub_racks &&
+                                        rack.sub_racks.length > 0
+                                    "
+                                    class="mt-2"
+                                >
                                     <div class="flex flex-wrap gap-1">
                                         <span
-                                            v-for="subRack in rack.sub_racks.slice(0, 3)"
+                                            v-for="subRack in rack.sub_racks.slice(
+                                                0,
+                                                3
+                                            )"
                                             :key="subRack.id"
                                             class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-light-blue text-pln-blue border border-pln-blue"
                                         >
-                                            📂 {{ subRack.name }} ({{ subRack.files_count }})
+                                            📂 {{ subRack.name }} ({{
+                                                subRack.files_count
+                                            }})
                                         </span>
                                         <span
                                             v-if="rack.sub_racks.length > 3"
                                             class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600"
                                         >
-                                            +{{ rack.sub_racks.length - 3 }} more
+                                            +{{
+                                                rack.sub_racks.length - 3
+                                            }}
+                                            more
                                         </span>
                                     </div>
                                 </div>
@@ -466,13 +519,19 @@ const statCards = computed(() =>
                         </div>
 
                         <!-- Stats -->
-                        <div class="flex items-center space-x-4 text-sm text-gray-500">
+                        <div
+                            class="flex items-center space-x-4 text-sm text-gray-500"
+                        >
                             <div class="text-center">
-                                <div class="font-medium text-charcoal">{{ rack.sub_racks_count }}</div>
+                                <div class="font-medium text-charcoal">
+                                    {{ rack.sub_racks_count }}
+                                </div>
                                 <div class="text-xs">Sub-racks</div>
                             </div>
                             <div class="text-center">
-                                <div class="font-medium text-charcoal">{{ rack.files_count }}</div>
+                                <div class="font-medium text-charcoal">
+                                    {{ rack.files_count }}
+                                </div>
                                 <div class="text-xs">Files</div>
                             </div>
                         </div>
@@ -491,19 +550,47 @@ const statCards = computed(() =>
             </div>
 
             <!-- Empty State for Racks -->
-            <div v-if="isAdmin && (!props.racks || props.racks.length === 0)" class="px-6 py-8 text-center">
-                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            <div
+                v-if="isAdmin && (!props.racks || props.racks.length === 0)"
+                class="px-6 py-8 text-center"
+            >
+                <svg
+                    class="mx-auto h-12 w-12 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                    />
                 </svg>
-                <h3 class="mt-2 text-sm font-medium text-gray-900">No racks created</h3>
-                <p class="mt-1 text-sm text-gray-500">Get started by creating your first rack for organizing files.</p>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">
+                    No racks created
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                    Get started by creating your first rack for organizing
+                    files.
+                </p>
                 <div class="mt-6">
                     <Link
                         :href="route('admin.racks.create')"
                         class="inline-flex items-center px-4 py-2 bg-pln-blue text-white text-sm font-medium rounded-lg hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-pln-blue focus:ring-offset-2 transition-colors duration-200"
                     >
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        <svg
+                            class="w-4 h-4 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 4v16m8-8H4"
+                            />
                         </svg>
                         Create First Rack
                     </Link>
@@ -594,23 +681,37 @@ const statCards = computed(() =>
                                         </svg>
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">
+                                        <div
+                                            class="text-sm font-medium text-gray-900"
+                                        >
                                             {{ file.title }}
                                         </div>
                                         <div class="text-sm text-gray-500">
-                                            {{ file.uploader?.name || 'Unknown' }}
+                                            {{
+                                                file.uploader?.name || "Unknown"
+                                            }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ file.rack?.name || 'No Rack' }}
+                            <td
+                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                            >
+                                {{ file.rack?.name || "No Rack" }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td
+                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                            >
                                 {{ file.formatted_size }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ new Date(file.created_at).toLocaleDateString() }}
+                            <td
+                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                            >
+                                {{
+                                    new Date(
+                                        file.created_at
+                                    ).toLocaleDateString()
+                                }}
                             </td>
                         </tr>
                     </tbody>
@@ -619,22 +720,50 @@ const statCards = computed(() =>
 
             <!-- Empty State -->
             <div v-else class="px-6 py-12 text-center">
-                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <svg
+                    class="mx-auto h-12 w-12 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
                 </svg>
                 <h3 class="mt-2 text-sm font-medium text-gray-900">No Files</h3>
                 <p class="mt-1 text-sm text-gray-500">
-                    {{ isAdmin ? 'No files have been uploaded yet.' : 'You haven\'t uploaded any files yet.' }}
+                    {{
+                        isAdmin
+                            ? "No files have been uploaded yet."
+                            : "You haven't uploaded any files yet."
+                    }}
                 </p>
                 <div class="mt-6">
                     <Link
                         :href="route('files.create')"
                         class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pln-blue hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pln-blue"
                     >
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        <svg
+                            class="w-4 h-4 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 4v16m8-8H4"
+                            />
                         </svg>
-                        {{ isAdmin ? 'Upload First File' : 'Upload Your First File' }}
+                        {{
+                            isAdmin
+                                ? "Upload First File"
+                                : "Upload Your First File"
+                        }}
                     </Link>
                 </div>
             </div>
