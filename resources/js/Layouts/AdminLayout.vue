@@ -60,17 +60,17 @@ const logout = () => {
             >
                 <div class="flex items-center">
                     <div
-                        class="w-10 h-10 bg-pln-blue rounded-xl flex items-center justify-center shadow-sm"
+                        class="w-17 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm overflow-hidden"
                     >
-                        <span class="text-white font-bold text-lg">S</span>
+                        <img
+                            src="/pln.png"
+                            alt="Logo PLN"
+                            class="w-6 h-6 object-contain"
+                        />
                     </div>
                     <div class="ml-3">
-                        <span class="text-xl font-bold text-charcoal"
+                        <span class="text-xl font-bold text-pln-blue"
                             >SIPUS</span
-                        >
-                        <span
-                            class="ml-2 px-2 py-1 text-xs bg-pln-red text-white rounded-full"
-                            >Admin</span
                         >
                     </div>
                 </div>

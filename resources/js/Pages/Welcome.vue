@@ -306,7 +306,7 @@ const scrollToSection = (sectionId) => {
                             :href="route('login')"
                             class="w-full sm:w-auto bg-gradient-to-r from-pln-blue to-dark-blue text-pln-blue px-8 py-4 rounded-xl hover:from-dark-blue hover:to-pln-blue transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                         >
-                            🚀 Mulai Sekarang
+                        Mulai Sekarang
                         </Link>
                         <Link
                             v-if="$page.props.auth.user"
@@ -319,100 +319,9 @@ const scrollToSection = (sectionId) => {
                             @click="scrollToSection('features')"
                             class="w-full sm:w-auto border-2 border-pln-blue text-pln-blue px-8 py-4 rounded-xl hover:bg-pln-blue hover:text-white transition-all duration-300 font-semibold text-lg"
                         >
-                            📖 Pelajari Lebih Lanjut
+                        Pelajari Lebih Lanjut
                         </button>
-                    </div>
-
-                    <!-- Hero illustration -->
-                    <div class="relative max-w-4xl mx-auto">
-                        <div
-                            class="bg-white/30 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-2xl"
-                        >
-                            <div class="grid grid-cols-3 gap-4 mb-6">
-                                <!-- File icons -->
-                                <div
-                                    class="bg-white/80 rounded-lg p-4 text-center shadow-sm"
-                                >
-                                    <svg
-                                        class="w-8 h-8 text-pln-blue mx-auto mb-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                                        ></path>
-                                    </svg>
-                                    <span class="text-xs text-gray-600"
-                                        >Dokumen</span
-                                    >
-                                </div>
-                                <div
-                                    class="bg-white/80 rounded-lg p-4 text-center shadow-sm"
-                                >
-                                    <svg
-                                        class="w-8 h-8 text-pln-yellow mx-auto mb-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                                        ></path>
-                                    </svg>
-                                    <span class="text-xs text-gray-600"
-                                        >Rak Digital</span
-                                    >
-                                </div>
-                                <div
-                                    class="bg-white/80 rounded-lg p-4 text-center shadow-sm"
-                                >
-                                    <svg
-                                        class="w-8 h-8 text-green mx-auto mb-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                                        ></path>
-                                    </svg>
-                                    <span class="text-xs text-gray-600"
-                                        >Keamanan</span
-                                    >
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <div
-                                    class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-pln-blue to-dark-blue rounded-lg text-white font-semibold"
-                                >
-                                    <svg
-                                        class="w-5 h-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M13 10V3L4 14h7v7l9-11h-7z"
-                                        ></path>
-                                    </svg>
-                                    Dashboard SIPUS
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </div>            
                 </div>
             </div>
         </section>

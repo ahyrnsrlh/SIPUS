@@ -691,7 +691,7 @@ const LayoutComponent = computed(() =>
                                     class="text-lg leading-6 font-medium text-gray-900"
                                     id="modal-title"
                                 >
-                                    🗑️ Form Hapus File
+                                    Hapus File
                                 </h3>
                                 <div class="mt-2">
                                     <p class="text-sm text-gray-600 mb-3">
@@ -700,15 +700,15 @@ const LayoutComponent = computed(() =>
                                         >
                                     </p>
                                     <p class="text-sm text-gray-700">
-                                        ❗ Anda yakin ingin menghapus file:
+                                        Anda yakin ingin menghapus file:
                                     </p>
                                     <p
                                         class="text-sm font-semibold text-gray-900 mt-1"
                                     >
-                                        **{{
+                                        {{
                                             fileToDelete?.title ||
                                             fileToDelete?.filename
-                                        }}**?
+                                        }}
                                     </p>
                                     <div
                                         class="mt-3 bg-yellow-50 border border-yellow-200 rounded-md p-3"
@@ -716,7 +716,7 @@ const LayoutComponent = computed(() =>
                                         <p class="text-xs text-yellow-800">
                                             {{
                                                 isAdmin
-                                                    ? "⚠️ Sebagai admin, Anda dapat menghapus semua file. File yang dihapus tidak dapat dipulihkan."
+                                                    ? "Sebagai admin, Anda dapat menghapus semua file. File yang dihapus tidak dapat dipulihkan."
                                                     : "⚠️ Anda hanya dapat menghapus file yang Anda upload sendiri. File yang dihapus tidak dapat dipulihkan."
                                             }}
                                         </p>
