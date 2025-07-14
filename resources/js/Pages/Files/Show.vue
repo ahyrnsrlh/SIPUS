@@ -314,5 +314,107 @@ const downloadFile = () => {
                 </div>
             </div>
         </div>
+
+        <!-- File Preview Modal -->
+        <div
+            v-if="showPreviewModal"
+            class="fixed inset-0 z-50 overflow-y-auto"
+            aria-labelledby="preview-modal-title"
+            role="dialog"
+            aria-modal="true"
+        >
+            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <!-- Background overlay -->
+                <div
+                    class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity"
+                    @click="closePreview"
+                ></div>
+
+                <!-- Modal panel -->
+                <div class="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl sm:w-full">
+                    <!-- Header -->
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="preview-modal-title">
+                                    File Preview
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-600">{{ file.title }}</p>
+                            </div>
+                            <div class="flex space-x-2">
+                                <!-- Download button in modal -->
+                                <button
+                                    @click="downloadFile"
+                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-pln-blue hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pln-blue"
+                                >
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Download
+                                </button>
+                                <!-- Close button -->
+                                <button
+                                    @click="closePreview"
+                                    class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                                >
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preview Content -->
+                    <div class="bg-gray-50 px-4 py-6 sm:px-6" style="max-height: 70vh; overflow-y: auto;">
+                        <!-- Image Preview -->
+                        <div v-if="file.mime_type.startsWith('image/')" class="text-center">
+                            <img
+                                :src="route('files.preview', file.id)"
+                                :alt="file.title"
+                                class="max-w-full max-h-96 mx-auto rounded-lg shadow-lg"
+                                @error="$event.target.style.display='none'"
+                            />
+                        </div>
+
+                        <!-- PDF Preview -->
+                        <div v-else-if="file.mime_type === 'application/pdf'" class="w-full">
+                            <iframe
+                                :src="route('files.preview', file.id)"
+                                class="w-full h-96 border rounded-lg"
+                                title="PDF Preview"
+                            ></iframe>
+                        </div>
+
+                        <!-- Text/Code Preview -->
+                        <div v-else-if="file.mime_type.startsWith('text/') || file.mime_type === 'application/json' || file.mime_type === 'application/xml'">
+                            <iframe
+                                :src="route('files.preview', file.id)"
+                                class="w-full h-96 border rounded-lg bg-white"
+                                title="Text Preview"
+                            ></iframe>
+                        </div>
+
+                        <!-- Fallback for unsupported types -->
+                        <div v-else class="text-center py-8">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">Preview not available</h3>
+                            <p class="mt-1 text-sm text-gray-500">This file type cannot be previewed directly.</p>
+                            <div class="mt-4">
+                                <button
+                                    @click="downloadFile"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-pln-blue hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pln-blue"
+                                >
+                                    Download to view
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </component>
 </template>
