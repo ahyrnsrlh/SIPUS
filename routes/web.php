@@ -33,6 +33,7 @@ Route::middleware(['auth', 'approved'])->group(function () {
     // Files
     Route::resource('files', FileController::class);
     Route::get('/files/{file}/download', [FileController::class, 'download'])->name('files.download');
+    Route::get('/files/{file}/preview', [FileController::class, 'preview'])->name('files.preview');
     
     // Admin routes
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
@@ -50,3 +51,6 @@ Route::middleware(['auth', 'approved'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Debug route
+require __DIR__.'/debug.php';

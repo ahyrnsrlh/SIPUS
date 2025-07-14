@@ -22,7 +22,9 @@ const currentUserId = computed(() => page.props.auth.user.id);
 const searchQuery = ref("");
 const showFilters = ref(false);
 const showDeleteModal = ref(false);
+const showPreviewModal = ref(false);
 const fileToDelete = ref(null);
+const fileToPreview = ref(null);
 
 const filterForm = reactive({
     search: "",
@@ -83,6 +85,45 @@ const cancelDelete = () => {
     fileToDelete.value = null;
 };
 
+// Preview functionality
+const previewFile = (file) => {
+    fileToPreview.value = file;
+    showPreviewModal.value = true;
+};
+
+const closePreview = () => {
+    showPreviewModal.value = false;
+    fileToPreview.value = null;
+};
+
+const isPreviewable = (file) => {
+    const previewableTypes = [
+        'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml',
+        'text/plain', 'text/csv', 'text/html', 'text/css', 'text/javascript',
+        'application/json', 'application/xml',
+        'application/pdf'
+    ];
+    return previewableTypes.includes(file.mime_type);
+};
+
+// Download functionality
+const downloadFile = (file) => {
+    window.open(route('files.download', file.id), '_blank');
+};
+
+// Format file size helper
+const formatFileSize = (bytes) => {
+    if (bytes >= 1073741824) {
+        return (bytes / 1073741824).toFixed(2) + ' GB';
+    } else if (bytes >= 1048576) {
+        return (bytes / 1048576).toFixed(2) + ' MB';
+    } else if (bytes >= 1024) {
+        return (bytes / 1024).toFixed(2) + ' KB';
+    } else {
+        return bytes + ' bytes';
+    }
+};
+
 // Check if user can edit/delete file
 const canModifyFile = (file) => {
     return isAdmin.value || file.uploader_id === currentUserId.value;
@@ -108,7 +149,7 @@ const LayoutComponent = computed(() =>
         >
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-gray-900">
-                    🔍 Filter & Cari File
+                    Filter & Cari File
                 </h3>
                 <button
                     @click="showFilters = !showFilters"
@@ -325,15 +366,22 @@ const LayoutComponent = computed(() =>
             >
                 <div class="flex-1">
                     <h2 class="text-xl font-bold text-gray-900">
-                        {{ isAdmin ? "File Library" : "My Files" }}
+                        {{ isAdmin ? "File Library" : "My Files & Shared Files" }}
                     </h2>
                     <p class="text-sm text-gray-600">
                         {{
                             isAdmin
                                 ? "Manage and organize all files in the system"
-                                : "Manage your uploaded files"
+                                : "Manage your files and view files from your unit/division"
                         }}
                     </p>
+                    <!-- Access info for users -->
+                    <div v-if="!isAdmin" class="mt-2 flex items-center text-xs text-gray-500">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        You can view and download files from your unit/division, but can only edit/delete your own files
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-3">
@@ -375,7 +423,7 @@ const LayoutComponent = computed(() =>
                         ]"
                     >
                         <div :class="isAdmin ? 'col-span-4' : 'col-span-5'">
-                            File Info
+                            File Info & Tags
                         </div>
                         <div class="col-span-2">Category</div>
                         <div class="col-span-2">Size</div>
@@ -420,15 +468,49 @@ const LayoutComponent = computed(() =>
                                     </div>
                                     <div>
                                         <div
-                                            class="text-sm font-medium text-gray-900"
+                                            class="text-sm font-medium text-gray-900 flex items-center"
                                         >
                                             {{ file.title }}
+                                            <!-- File ownership indicator -->
+                                            <span
+                                                v-if="file.uploader_id === currentUserId"
+                                                class="ml-2 px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700 rounded-full"
+                                                title="File milik Anda"
+                                            >
+                                                Mine
+                                            </span>
+                                            <span
+                                                v-else-if="file.uploader && file.uploader.instansi === $page.props.auth.user.instansi"
+                                                class="ml-2 px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full"
+                                                title="File dari unit/divisi yang sama"
+                                            >
+                                                {{ file.uploader.instansi }}
+                                            </span>
                                         </div>
                                         <div class="text-sm text-gray-500">
                                             {{
                                                 file.description ||
                                                 "No description"
                                             }}
+                                        </div>
+                                        <!-- Tags display -->
+                                        <div
+                                            v-if="file.tags && file.tags.length > 0"
+                                            class="mt-1 flex flex-wrap gap-1"
+                                        >
+                                            <span
+                                                v-for="tag in file.tags.slice(0, 3)"
+                                                :key="tag.id"
+                                                class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700"
+                                            >
+                                                #{{ tag.name }}
+                                            </span>
+                                            <span
+                                                v-if="file.tags.length > 3"
+                                                class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-500"
+                                            >
+                                                +{{ file.tags.length - 3 }} more
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -480,10 +562,59 @@ const LayoutComponent = computed(() =>
                             <!-- Actions -->
                             <div class="col-span-1">
                                 <div class="flex items-center space-x-2">
-                                    <!-- Download Button - Always available -->
+                                    <!-- Preview Button -->
+                                    <button
+                                        v-if="isPreviewable(file)"
+                                        @click="previewFile(file)"
+                                        class="text-gray-500 hover:text-gray-700 p-1 rounded transition-colors duration-200"
+                                        title="👁️ Preview File"
+                                    >
+                                        <svg
+                                            class="w-4 h-4"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                            />
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                            />
+                                        </svg>
+                                    </button>
+
+                                    <!-- View Details Button -->
                                     <Link
-                                        :href="route('files.download', file.id)"
-                                        class="text-pln-blue hover:text-dark-blue p-1 rounded"
+                                        :href="route('files.show', file.id)"
+                                        class="text-blue-500 hover:text-blue-700 p-1 rounded transition-colors duration-200"
+                                        title="📄 View Details"
+                                    >
+                                        <svg
+                                            class="w-4 h-4"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            />
+                                        </svg>
+                                    </Link>
+
+                                    <!-- Download Button - Always available for accessible files -->
+                                    <button
+                                        @click="downloadFile(file)"
+                                        class="text-pln-blue hover:text-dark-blue p-1 rounded transition-colors duration-200"
                                         title="📥 Download"
                                     >
                                         <svg
@@ -499,14 +630,14 @@ const LayoutComponent = computed(() =>
                                                 d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                                             />
                                         </svg>
-                                    </Link>
+                                    </button>
 
                                     <!-- Edit Button - Only if user can modify -->
                                     <Link
                                         v-if="canModifyFile(file)"
                                         :href="route('files.edit', file.id)"
-                                        class="text-gray-600 hover:text-gray-900 p-1 rounded"
-                                        title="✏️ Edit File"
+                                        class="text-gray-600 hover:text-gray-900 p-1 rounded transition-colors duration-200"
+                                        title="✏️ Edit Metadata"
                                     >
                                         <svg
                                             class="w-4 h-4"
@@ -527,7 +658,7 @@ const LayoutComponent = computed(() =>
                                     <button
                                         v-if="canModifyFile(file)"
                                         @click="deleteFile(file)"
-                                        class="text-red-600 hover:text-red-900 p-1 rounded"
+                                        class="text-red-600 hover:text-red-900 p-1 rounded transition-colors duration-200"
                                         title="🗑️ Hapus File"
                                     >
                                         <svg
@@ -545,14 +676,19 @@ const LayoutComponent = computed(() =>
                                         </svg>
                                     </button>
 
-                                    <!-- Read-only indicator for files user cannot modify -->
-                                    <span
+                                    <!-- Access type indicator for files user cannot modify -->
+                                    <div
                                         v-if="!canModifyFile(file) && !isAdmin"
-                                        class="text-gray-400 text-xs px-2 py-1 bg-gray-100 rounded"
-                                        title="File uploaded by another user"
+                                        class="flex items-center text-xs"
                                     >
-                                        👁️ View Only
-                                    </span>
+                                        <span
+                                            v-if="file.uploader_id !== currentUserId"
+                                            class="px-2 py-1 bg-blue-50 text-blue-600 rounded border border-blue-200"
+                                            title="File dari unit/divisi yang sama - akses baca saja"
+                                        >
+                                            View Only
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -742,6 +878,131 @@ const LayoutComponent = computed(() =>
                         >
                             ❌ Batal
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Preview Modal -->
+        <div
+            v-if="showPreviewModal && fileToPreview"
+            class="fixed inset-0 z-50 overflow-y-auto"
+            aria-labelledby="preview-modal-title"
+            role="dialog"
+            aria-modal="true"
+        >
+            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <!-- Background overlay -->
+                <div
+                    class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity"
+                    @click="closePreview"
+                ></div>
+
+                <!-- Modal panel -->
+                <div class="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl sm:w-full">
+                    <!-- Header -->
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="preview-modal-title">
+                                    File Preview
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-600">{{ fileToPreview.title }}</p>
+                            </div>
+                            <div class="flex space-x-2">
+                                <!-- Download button in modal -->
+                                <button
+                                    @click="downloadFile(fileToPreview)"
+                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-pln-blue hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pln-blue"
+                                >
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Download
+                                </button>
+                                <!-- Close button -->
+                                <button
+                                    @click="closePreview"
+                                    class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                                >
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preview Content -->
+                    <div class="bg-gray-50 px-4 py-6 sm:px-6" style="max-height: 70vh; overflow-y: auto;">
+                        <!-- Image Preview -->
+                        <div v-if="fileToPreview.mime_type.startsWith('image/')" class="text-center">
+                            <img
+                                :src="route('files.preview', fileToPreview.id)"
+                                :alt="fileToPreview.title"
+                                class="max-w-full max-h-96 mx-auto rounded-lg shadow-lg"
+                                @error="$event.target.style.display='none'"
+                            />
+                        </div>
+
+                        <!-- PDF Preview -->
+                        <div v-else-if="fileToPreview.mime_type === 'application/pdf'" class="w-full">
+                            <iframe
+                                :src="route('files.preview', fileToPreview.id)"
+                                class="w-full h-96 border rounded-lg"
+                                title="PDF Preview"
+                            ></iframe>
+                        </div>
+
+                        <!-- Text/Code Preview -->
+                        <div v-else-if="fileToPreview.mime_type.startsWith('text/') || fileToPreview.mime_type === 'application/json' || fileToPreview.mime_type === 'application/xml'">
+                            <iframe
+                                :src="route('files.preview', fileToPreview.id)"
+                                class="w-full h-96 border rounded-lg bg-white"
+                                title="Text Preview"
+                            ></iframe>
+                        </div>
+
+                        <!-- Fallback for unsupported types -->
+                        <div v-else class="text-center py-8">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">Preview not available</h3>
+                            <p class="mt-1 text-sm text-gray-500">This file type cannot be previewed directly.</p>
+                            <div class="mt-4">
+                                <button
+                                    @click="downloadFile(fileToPreview)"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-pln-blue hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pln-blue"
+                                >
+                                    Download to view
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- File Information -->
+                        <div class="mt-6 bg-white rounded-lg p-4 border">
+                            <h4 class="text-sm font-medium text-gray-900 mb-3">File Information</h4>
+                            <dl class="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
+                                <div>
+                                    <dt class="text-xs font-medium text-gray-500">Original Name</dt>
+                                    <dd class="text-sm text-gray-900">{{ fileToPreview.original_name }}</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-xs font-medium text-gray-500">File Type</dt>
+                                    <dd class="text-sm text-gray-900">{{ fileToPreview.mime_type }}</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-xs font-medium text-gray-500">Size</dt>
+                                    <dd class="text-sm text-gray-900">{{ formatFileSize(fileToPreview.size) }}</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-xs font-medium text-gray-500">Uploaded</dt>
+                                    <dd class="text-sm text-gray-900">{{ new Date(fileToPreview.created_at).toLocaleDateString() }}</dd>
+                                </div>
+                            </dl>
+                        </div>
                     </div>
                 </div>
             </div>

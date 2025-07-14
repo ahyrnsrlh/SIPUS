@@ -25,9 +25,20 @@ class FileController extends Controller
     {
         $query = FileModel::with(['rack', 'subRack', 'uploader', 'tags']);
 
-        // If user is not admin, only show their own files
+        // If user is not admin, show their own files and files they have access to
         if (Auth::user()->role !== 'admin') {
-            $query->where('uploaded_by', Auth::id());
+            $userInstansi = Auth::user()->instansi;
+            $query->where(function($q) use ($userInstansi) {
+                $q->where('uploaded_by', Auth::id()) // Own files
+                  ->orWhere(function($q2) use ($userInstansi) {
+                      // Files from same instansi/unit (if instansi field exists)
+                      if ($userInstansi) {
+                          $q2->whereHas('uploader', function($q3) use ($userInstansi) {
+                              $q3->where('instansi', $userInstansi);
+                          });
+                      }
+                  });
+            });
         }
 
         // Search functionality
@@ -164,7 +175,12 @@ class FileController extends Controller
      */
     public function show(FileModel $file): Response
     {
-        $file->load(['rack', 'subRack', 'uploader', 'tags']);
+        // Load the uploader relationship before authorization
+        $file->load('uploader');
+        
+        $this->authorize('view', $file);
+        
+        $file->load(['rack', 'subRack', 'tags']);
 
         return Inertia::render('Files/Show', [
             'file' => $file,
@@ -176,6 +192,9 @@ class FileController extends Controller
      */
     public function edit(FileModel $file): Response
     {
+        // Load the uploader relationship before authorization
+        $file->load('uploader');
+        
         $this->authorize('update', $file);
 
         $file->load(['rack', 'subRack', 'tags']);
@@ -228,6 +247,9 @@ class FileController extends Controller
      */
     public function destroy(FileModel $file)
     {
+        // Load the uploader relationship before authorization
+        $file->load('uploader');
+        
         $this->authorize('delete', $file);
 
         // Delete the actual file
@@ -244,6 +266,11 @@ class FileController extends Controller
      */
     public function download(FileModel $file)
     {
+        // Load the uploader relationship before authorization
+        $file->load('uploader');
+        
+        $this->authorize('download', $file);
+
         $filePath = storage_path('app/public/files/' . $file->filename);
 
         if (!file_exists($filePath)) {
@@ -251,5 +278,28 @@ class FileController extends Controller
         }
 
         return response()->download($filePath, $file->original_name);
+    }
+
+    /**
+     * Preview the specified file.
+     */
+    public function preview(FileModel $file)
+    {
+        // Load the uploader relationship before authorization
+        $file->load('uploader');
+        
+        $this->authorize('view', $file);
+
+        $filePath = storage_path('app/public/files/' . $file->filename);
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        // Return file for preview in browser
+        return response()->file($filePath, [
+            'Content-Type' => $file->mime_type,
+            'Content-Disposition' => 'inline; filename="' . $file->original_name . '"'
+        ]);
     }
 }

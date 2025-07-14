@@ -311,9 +311,9 @@ const scrollToSection = (sectionId) => {
                         <Link
                             v-if="$page.props.auth.user"
                             :href="route('dashboard')"
-                            class="w-full sm:w-auto bg-gradient-to-r from-pln-blue to-dark-blue text-white px-8 py-4 rounded-xl hover:from-dark-blue hover:to-pln-blue transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                            class="w-full sm:w-auto bg-gradient-to-r from-pln-blue to-dark-blue text-pln-blue px-8 py-4 rounded-xl hover:from-dark-blue hover:to-pln-blue transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                         >
-                            🚀 Buka Dashboard
+                            Buka Dashboard
                         </Link>
                         <button
                             @click="scrollToSection('features')"

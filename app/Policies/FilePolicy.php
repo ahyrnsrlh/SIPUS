@@ -21,7 +21,26 @@ class FilePolicy
      */
     public function view(User $user, FileModel $fileModel): bool
     {
-        return $user->isApproved();
+        if (!$user->isApproved()) {
+            return false;
+        }
+
+        // Admin can view all files
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        // User can view their own files
+        if ($user->id === $fileModel->uploaded_by) {
+            return true;
+        }
+
+        // User can view files from same instansi/unit
+        if ($user->instansi && $fileModel->uploader && $user->instansi === $fileModel->uploader->instansi) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -46,6 +65,33 @@ class FilePolicy
     public function delete(User $user, FileModel $fileModel): bool
     {
         return $user->isApproved() && ($user->isAdmin() || $user->id === $fileModel->uploaded_by);
+    }
+
+    /**
+     * Determine whether the user can download the model.
+     */
+    public function download(User $user, FileModel $fileModel): bool
+    {
+        if (!$user->isApproved()) {
+            return false;
+        }
+
+        // Admin can download all files
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        // User can download their own files
+        if ($user->id === $fileModel->uploaded_by) {
+            return true;
+        }
+
+        // User can download files from same instansi/unit
+        if ($user->instansi && $fileModel->uploader && $user->instansi === $fileModel->uploader->instansi) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
