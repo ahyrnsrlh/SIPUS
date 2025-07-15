@@ -57,7 +57,7 @@ const confirmDelete = () => {
             // Handle different types of errors
             if (errors.error) {
                 alert("Error: " + errors.error);
-            } else if (errors.message && errors.message.includes('404')) {
+            } else if (errors.message && errors.message.includes("404")) {
                 alert("File not found. It may have already been deleted.");
                 // Redirect to files index since file doesn't exist
                 router.visit(route("files.index"));

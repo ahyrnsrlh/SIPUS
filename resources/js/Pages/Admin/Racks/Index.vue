@@ -162,7 +162,9 @@ const cancelDelete = () => {
                                 <div class="flex items-center space-x-2">
                                     <!-- View Files -->
                                     <Link
-                                        :href="route('admin.racks.show', rack.id)"
+                                        :href="
+                                            route('admin.racks.show', rack.id)
+                                        "
                                         class="text-green-600 hover:text-green-800 p-1 rounded"
                                         title="👁️ Lihat Files"
                                     >
@@ -426,9 +428,9 @@ const cancelDelete = () => {
                                         class="mt-3 bg-yellow-50 border border-pln-yellow rounded-md p-3"
                                     >
                                         <p class="text-xs text-gray-700">
-                                            Menghapus rak akan menghapus
-                                            semua sub-rak dan file di dalamnya.
-                                            Aksi ini tidak dapat dibatalkan.
+                                            Menghapus rak akan menghapus semua
+                                            sub-rak dan file di dalamnya. Aksi
+                                            ini tidak dapat dibatalkan.
                                         </p>
                                     </div>
                                 </div>
