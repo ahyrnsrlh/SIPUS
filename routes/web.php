@@ -5,17 +5,23 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RackController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    if (auth()->check()) {
+        $user = auth()->user();
+        
+        // Check if user is approved
+        if ($user->status === 'approved') {
+            return redirect()->route('dashboard');
+        } else {
+            // User is pending approval
+            return redirect()->route('pending.approval');
+        }
+    }
+    // If not logged in, redirect to login page
+    return redirect()->route('login');
 });
 
 Route::get('/pending-approval', function () {
