@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -250,15 +251,23 @@ class FileController extends Controller
         // Load the uploader relationship before authorization
         $file->load('uploader');
         
-        $this->authorize('delete', $file);
+        try {
+            $this->authorize('delete', $file);
 
-        // Delete the actual file
-        Storage::disk('public')->delete('files/' . $file->filename);
+            // Delete the actual file
+            if (Storage::disk('public')->exists('files/' . $file->filename)) {
+                Storage::disk('public')->delete('files/' . $file->filename);
+            }
 
-        // Delete from database
-        $file->delete();
+            // Delete from database
+            $file->delete();
 
-        return back()->with('success', 'File deleted successfully.');
+            return redirect()->route('files.index')->with('success', 'File deleted successfully.');
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return back()->withErrors(['error' => 'You are not authorized to delete this file.']);
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Failed to delete file: ' . $e->getMessage()]);
+        }
     }
 
     /**

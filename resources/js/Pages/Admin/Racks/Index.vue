@@ -160,6 +160,33 @@ const cancelDelete = () => {
                             <!-- Actions -->
                             <div class="col-span-2">
                                 <div class="flex items-center space-x-2">
+                                    <!-- View Files -->
+                                    <Link
+                                        :href="route('admin.racks.show', rack.id)"
+                                        class="text-green-600 hover:text-green-800 p-1 rounded"
+                                        title="👁️ Lihat Files"
+                                    >
+                                        <svg
+                                            class="w-4 h-4"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                            />
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                            />
+                                        </svg>
+                                    </Link>
+
                                     <!-- Add Sub-Rack -->
                                     <Link
                                         :href="
@@ -169,7 +196,7 @@ const cancelDelete = () => {
                                             )
                                         "
                                         class="text-pln-blue hover:text-dark-blue p-1 rounded"
-                                        title="Tambah Sub-Rak"
+                                        title="➕ Tambah Sub-Rak"
                                     >
                                         <svg
                                             class="w-4 h-4"
@@ -388,18 +415,18 @@ const cancelDelete = () => {
                                         >
                                     </p>
                                     <p class="text-sm text-charcoal">
-                                        ❗ Anda yakin ingin menghapus rak:
+                                        Anda yakin ingin menghapus rak:
                                     </p>
                                     <p
                                         class="text-sm font-semibold text-charcoal mt-1"
                                     >
-                                        **{{ rackToDelete?.name }}**?
+                                        {{ rackToDelete?.name }}?
                                     </p>
                                     <div
                                         class="mt-3 bg-yellow-50 border border-pln-yellow rounded-md p-3"
                                     >
                                         <p class="text-xs text-gray-700">
-                                            ⚠️ Menghapus rak akan menghapus
+                                            Menghapus rak akan menghapus
                                             semua sub-rak dan file di dalamnya.
                                             Aksi ini tidak dapat dibatalkan.
                                         </p>

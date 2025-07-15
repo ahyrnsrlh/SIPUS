@@ -36,11 +36,11 @@ const cancelDelete = () => {
 };
 
 const approveUser = (user) => {
-    router.post(route("admin.users.approve", user.id));
+    router.patch(route("admin.users.approve", user.id));
 };
 
 const rejectUser = (user) => {
-    router.post(route("admin.users.reject", user.id));
+    router.patch(route("admin.users.reject", user.id));
 };
 
 const getStatusBadge = (status) => {

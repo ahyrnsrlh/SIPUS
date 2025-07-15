@@ -449,9 +449,9 @@ const LayoutComponent = computed(() =>
                         ]"
                     >
                         <div :class="isAdmin ? 'col-span-4' : 'col-span-5'">
-                            File Info & Tags
+                            File Info
                         </div>
-                        <div class="col-span-2">Category</div>
+                        <div class="col-span-2">Rak</div>
                         <div class="col-span-2">Size</div>
                         <div v-if="isAdmin" class="col-span-2">Uploaded By</div>
                         <div class="col-span-1">Date</div>
@@ -715,23 +715,6 @@ const LayoutComponent = computed(() =>
                                             />
                                         </svg>
                                     </button>
-
-                                    <!-- Access type indicator for files user cannot modify -->
-                                    <div
-                                        v-if="!canModifyFile(file) && !isAdmin"
-                                        class="flex items-center text-xs"
-                                    >
-                                        <span
-                                            v-if="
-                                                file.uploader_id !==
-                                                currentUserId
-                                            "
-                                            class="px-2 py-1 bg-blue-50 text-blue-600 rounded border border-blue-200"
-                                            title="File dari unit/divisi yang sama - akses baca saja"
-                                        >
-                                            View Only
-                                        </span>
-                                    </div>
                                 </div>
                             </div>
                         </div>

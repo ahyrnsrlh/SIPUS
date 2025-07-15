@@ -48,7 +48,25 @@ const deleteFile = () => {
 const confirmDelete = () => {
     router.delete(route("files.destroy", props.file.id), {
         onSuccess: () => {
-            router.visit(route("files.index"));
+            // File deleted successfully, redirect is handled by controller
+        },
+        onError: (errors) => {
+            console.error("Delete failed:", errors);
+            showDeleteModal.value = false;
+
+            // Handle different types of errors
+            if (errors.error) {
+                alert("Error: " + errors.error);
+            } else if (errors.message && errors.message.includes('404')) {
+                alert("File not found. It may have already been deleted.");
+                // Redirect to files index since file doesn't exist
+                router.visit(route("files.index"));
+            } else {
+                alert("Failed to delete file. Please try again.");
+            }
+        },
+        onFinish: () => {
+            showDeleteModal.value = false;
         },
     });
 };

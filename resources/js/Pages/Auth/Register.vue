@@ -9,7 +9,6 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 const form = useForm({
     name: '',
     email: '',
-    nik: '',
     instansi: '',
     password: '',
     password_confirmation: '',
@@ -58,21 +57,6 @@ const submit = () => {
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="nik" value="NIK (opsional)" />
-
-                <TextInput
-                    id="nik"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.nik"
-                    autocomplete="off"
-                    placeholder="Masukkan NIK"
-                />
-
-                <InputError class="mt-2" :message="form.errors.nik" />
             </div>
 
             <div class="mt-4">

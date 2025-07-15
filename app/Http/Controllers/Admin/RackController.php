@@ -28,6 +28,34 @@ class RackController extends Controller
     }
 
     /**
+     * Display the specified rack with files.
+     */
+    public function show(Rack $rack): Response
+    {
+        $rack->load(['subRacks', 'creator']);
+        
+        // Get files in this rack with related data
+        $files = $rack->files()
+            ->with(['uploader', 'subRack', 'tags'])
+            ->withCount('tags')
+            ->latest()
+            ->paginate(20);
+        
+        // Get files by sub-rack for organization
+        $filesBySubRack = $rack->files()
+            ->with(['uploader', 'subRack', 'tags'])
+            ->get()
+            ->groupBy('sub_rack_id');
+        
+        return Inertia::render('Admin/Racks/Show', [
+            'rack' => $rack,
+            'files' => $files,
+            'filesBySubRack' => $filesBySubRack,
+            'subRacks' => $rack->subRacks,
+        ]);
+    }
+
+    /**
      * Show the form for creating a new rack.
      */
     public function create(): Response
